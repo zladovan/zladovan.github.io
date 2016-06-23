@@ -1,0 +1,44 @@
+STATS
+	* health
+	* hunger
+	* speed
+	* jump size (or double jump) 
+	* score / remaining time + distance
+	* weapon or only different ammo for one gun
+
+ABILITIES
+	* run left | right
+	* jump
+	* long (double) jump
+	* fire ?	
+	
+ENEMIES / HEALTH LOSE
+	* fall off platform (into water, fire or so on...)
+	* static enemy (standing on one point) 
+	* moving enemy on one platform from right to left recursively
+	* flying enemy above one platform from right to left recursively
+	* jumping enemy on one platform up down on one place
+	* jumping enemy on one plaftorm up dow from left to rigt recursively
+	* enemy with fire ability (can be combination of one move type + fire)
+	* enemy with more than one live (need to be hit more times)
+	* big drop
+	* hunger on zero 
+	* illness (item | infected enemy 'bite' | ??? )
+
+MODES
+	* time battle mode
+		- run for max distance
+		- death after time off | health off
+		- given start time
+		- time bonuses (enemy kill | enemy multi kills | item collect | ??? ) 
+	* score mode
+		- run for max score
+		- death after health off
+		- score gain source
+			- enemy kill
+			- enemy multi kill
+			- speed (certain time of running with max speed)
+			- collect items
+		- score lose source ?
+			- friendly unit kill
+			- collect wrong items
