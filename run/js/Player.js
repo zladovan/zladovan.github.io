@@ -7,8 +7,7 @@ define(function(require) {
 
 		game.physics.p2.enable(this);	
 		this.alive = true;
-		//this.body.collideWorldBounds = true;
-		this.body.setZeroDamping();
+		this.body.damping = 0.5;
 		this.body.fixedRotation = true;
 		this.animations.add('left', [0, 1, 2, 3], 10, true);	
 		this.animations.add('right', [5, 6, 7, 8], 10, true);
@@ -48,6 +47,7 @@ define(function(require) {
 					console.info("LAND");
 					player.fx.play('land');
 					player.resetAnimations();
+					player.body.velocity.y = 0;
 				},
 
 				onjump: function(event, from, to, player) {
@@ -101,8 +101,8 @@ define(function(require) {
 			},
 
 			falling: function(player) {
-				if (player.body.velocity.y > -1) {
-				//if (player.body.velocity.y == 0) {
+				//if (player.body.velocity.y > -1) {
+				if (player.body.velocity.y <= 0) {
 					player.stateMachine.land(player);
 				} /*else {
 					console.info("velocity.y %f", player.body.velocity.y);
@@ -133,11 +133,13 @@ define(function(require) {
 			},
 
 			checkFall: function(player) {			
-				if (player.body.velocity.y < -1) {				
+				if (player.body.velocity.y > 10) {				
 					console.info("FALL %d", player.body.velocity.y);
 					player.stateMachine.fall(player);
 				}
 			}
+
+
 		}
 	};
 

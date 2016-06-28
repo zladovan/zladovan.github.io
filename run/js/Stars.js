@@ -107,10 +107,12 @@ define(function(require){
 		});
 		
 		player.body.onBeginContact.add(
-    		function(body, shapeA, shapeB, equation) {
-    			if (body.sprite.key == 'star') {
-    				var star = body.sprite;
-    				collectStar(fx, body.sprite, score);
+    		function(bodyA, bodyB, shapeA, shapeB, equation) {
+    			if (bodyA == null) return;
+
+    			if (bodyA.sprite.key == 'star') {
+    				var star = bodyA.sprite;
+    				collectStar(fx, star, score);
     				var starInfo = starsInfoMap[star.platformIndex][star.index];
     				starInfo.wasCollected = true;
     				starInfo.sprite = null;

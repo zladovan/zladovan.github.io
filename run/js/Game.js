@@ -13,17 +13,27 @@ require(['lib/phaser.min', 'Player', 'Ground', 'Enemies', 'Score', 'Stars'], fun
 		game.load.image('star', 'assets/star.png');
 		game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
 		game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32);
+		game.load.spritesheet('bird', 'assets/bird.png', 48, 48);
 		game.load.audio('sfx', 'assets/sfx.ogg');
 	}
 
 	function create() {
 		
 		game.physics.startSystem(Phaser.Physics.P2JS);
+		game.physics.p2.setBoundsToWorld(true, false, false, false); // left, right, top, bottom
 		//game.physics.p2.setImpactEvents(true);
 		game.physics.p2.gravity.y = 300;
 		
 		var sky = game.add.sprite(0, 0, 'sky');	
 		sky.fixedToCamera = true;
+
+		fx = game.add.audio('sfx');
+		fx.allowMultiple = true;
+		fx.addMarker('collect-star', 0.0, 0.458);
+		fx.addMarker('land', 0.740, 0.078);
+		fx.addMarker('auch', 1.675, 0.252);
+		fx.addMarker('whoaa', 2.079, 0.576);
+		fx.addMarker('bird-scream', 2.730, 1.5);
 
 		score = Score(game);
 		ground = new Ground(game);		
@@ -39,17 +49,13 @@ require(['lib/phaser.min', 'Player', 'Ground', 'Enemies', 'Score', 'Stars'], fun
 		//game.camera.setSize(100, 100);
 		game.camera.follow(player);
 
-		fx = game.add.audio('sfx');
-		fx.allowMultiple = true;
-		fx.addMarker('collect-star', 0.0, 0.458);
-		fx.addMarker('land', 0.740, 0.078);
-		fx.addMarker('auch', 1.675, 0.252);
-		fx.addMarker('whoaa', 2.079, 0.576);
-
 		player.events.onKilled.add(function() {
 			alert('You are dead, bitch !\n\nYour score: ' + score.getValue());
 			document.location.reload(true);
 		});
+
+		
+		var groundPlayerCM = game.physics.p2.createContactMaterial(player.material, ground.material, { friction: 0.0 });
 	}
 
 	function update() {

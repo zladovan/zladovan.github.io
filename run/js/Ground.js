@@ -20,7 +20,8 @@ define(function(require) {
 		this.createMultiple(Math.ceil(game.world.width / PLATFORM_BLOCK_WIDTH), 'ground');				
 		this.platforms = [];		
 		this.events = { onPlatformCreate: new Phaser.Signal(), onPlatformKill: new Phaser.Signal() };
-		this.generator = this._initGenerator(game);				
+		this.generator = this._initGenerator(game);		
+		this.material = game.physics.p2.createMaterial('groundMaterial', this.body);		
 	};
 
 	Ground.prototype = Object.create(Phaser.Group.prototype);
@@ -39,6 +40,7 @@ define(function(require) {
 		var view = this.game.camera.view; 
 		
 		if (mostLeftPlatform.maxX < view.x) {
+			console.info("Killing most left platform. viewX %d", view.x);
 			mostLeftPlatform.kill();
 			this.platforms.shift();
 		} else if (mostLeftPlatform.minX > view.x) {
@@ -63,7 +65,7 @@ define(function(require) {
 
 		function getPlatformLength(index) {
 			var rnd = new Phaser.RandomDataGenerator([seed + index]);
-			return rnd.integerInRange(PLATFORM_MIN_BLOCK_COUNT - 1, PLATFORM_MAX_BLOCK_COUNT);	
+			return rnd.integerInRange(PLATFORM_MIN_BLOCK_COUNT, PLATFORM_MAX_BLOCK_COUNT);	
 		}
 
 		function getPlatformY(index) {
@@ -85,7 +87,7 @@ define(function(require) {
 			}
 			game.physics.p2.enable(platform);
 			platform.body.static = true;
-
+			platform.body.setMaterial(ground.material);
 			return platform;
 		}
 
